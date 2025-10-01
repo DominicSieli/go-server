@@ -25,7 +25,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	initStorage(database)
+	//initStorage(database)
 
 	server := api.NewAPIServer(":8080", database)
 	if err := server.Run(); err != nil {
