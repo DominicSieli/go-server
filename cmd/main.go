@@ -4,21 +4,21 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/dominicsieli/go-server-template/cmd/api"
-	"github.com/dominicsieli/go-server-template/config"
-	"github.com/dominicsieli/go-server-template/database"
+	"github.com/dominicsieli/go-server/cmd/api"
+	"github.com/dominicsieli/go-server/config"
+	"github.com/dominicsieli/go-server/database"
 	"github.com/go-sql-driver/mysql"
 )
 
 func main() {
 	database, err := database.NewMySQLStorage(mysql.Config{
-		User: config.Envs.DBUser,
-		Passwd: config.Envs.DBPassword,
-		Addr: config.Envs.DBAddress,
-		DBName: config.Envs.DBName,
-		Net: "tcp",
+		User:                 config.Envs.DBUser,
+		Passwd:               config.Envs.DBPassword,
+		Addr:                 config.Envs.DBAddress,
+		DBName:               config.Envs.DBName,
+		Net:                  "tcp",
 		AllowNativePasswords: true,
-		ParseTime: true,
+		ParseTime:            true,
 	})
 
 	if err != nil {

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/dominicsieli/go-server-template/services/auth"
-	"github.com/dominicsieli/go-server-template/types"
-	"github.com/dominicsieli/go-server-template/utilities"
+	"github.com/dominicsieli/go-server/services/auth"
+	"github.com/dominicsieli/go-server/types"
+	"github.com/dominicsieli/go-server/utilities"
 	"github.com/gorilla/mux"
 )
 
@@ -50,9 +50,9 @@ func (handler *Handler) handleRegister(response http.ResponseWriter, request *ht
 
 	err = handler.store.CreateUser(types.User{
 		FirstName: payload.FirstName,
-		LastName: payload.LastName,
-		Email: payload.Email,
-		Password: hashedPassword,
+		LastName:  payload.LastName,
+		Email:     payload.Email,
+		Password:  hashedPassword,
 	})
 
 	if err != nil {

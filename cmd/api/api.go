@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/dominicsieli/go-server-template/services/user"
+	"github.com/dominicsieli/go-server/services/user"
 	"github.com/gorilla/mux"
 )
 
@@ -15,7 +15,7 @@ type APIServer struct {
 }
 
 func NewAPIServer(address string, database *sql.DB) *APIServer {
-	return &APIServer {
+	return &APIServer{
 		address:  address,
 		database: database,
 	}

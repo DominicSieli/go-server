@@ -7,8 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/dominicsieli/go-server-template/services/user"
-	"github.com/dominicsieli/go-server-template/types"
+	"github.com/dominicsieli/go-server/services/user"
+	"github.com/dominicsieli/go-server/types"
 	"github.com/gorilla/mux"
 )
 
@@ -19,9 +19,9 @@ func TestUserServiceHandlers(test *testing.T) {
 	test.Run("should fail if the user payload is invalid", func(test *testing.T) {
 		payload := types.RegisterUserPayload{
 			FirstName: "Dominic",
-			LastName: "Sieli",
-			Email: "",
-			Password: "password",
+			LastName:  "Sieli",
+			Email:     "",
+			Password:  "password",
 		}
 
 		marshalled, _ := json.Marshal(payload)
@@ -43,7 +43,7 @@ func TestUserServiceHandlers(test *testing.T) {
 	})
 }
 
-type mockUserStore struct {}
+type mockUserStore struct{}
 
 func (moch *mockUserStore) GetUserByEmail(email string) (*types.User, error) {
 	return nil, nil

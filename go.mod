@@ -1,4 +1,4 @@
-module github.com/dominicsieli/go-server-template
+module github.com/dominicsieli/go-server
 
 go 1.25.1
 

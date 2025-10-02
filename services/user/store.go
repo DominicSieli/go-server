@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/dominicsieli/go-server-template/types"
+	"github.com/dominicsieli/go-server/types"
 )
 
 type Store struct {

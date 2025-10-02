@@ -11,7 +11,7 @@ func ParseJSON(request *http.Request, payload any) error {
 		return fmt.Errorf("missing request body")
 	}
 
-	return  json.NewDecoder(request.Body).Decode(payload)
+	return json.NewDecoder(request.Body).Decode(payload)
 }
 
 func WriteJSON(response http.ResponseWriter, status int, v any) error {
@@ -21,6 +21,6 @@ func WriteJSON(response http.ResponseWriter, status int, v any) error {
 	return json.NewEncoder(response).Encode(v)
 }
 
-func WriteError (response http.ResponseWriter, status int, err error) {
+func WriteError(response http.ResponseWriter, status int, err error) {
 	WriteJSON(response, status, map[string]string{"error": err.Error()})
 }
