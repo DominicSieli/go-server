@@ -30,6 +30,6 @@ func (apiServer *APIServer) Run() error {
 	userHandler := user.NewHandler(userStore)
 	userHandler.RegisterRoutes(subRouter)
 
-	log.Println("Listen on", apiServer.address)
+	log.Println("Listening on", apiServer.address)
 	return http.ListenAndServe(apiServer.address, router)
 }
