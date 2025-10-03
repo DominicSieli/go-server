@@ -37,8 +37,8 @@ func (handler *Handler) handleRegister(response http.ResponseWriter, request *ht
 	}
 
 	if err := utilities.Validate.Struct(payload); err != nil {
-		errors := err.(validator.ValidationErrors)
-		utilities.WriteError(response, http.StatusBadRequest, fmt.Errorf("invalid payload %v", errors))
+		validationErrors := err.(validator.ValidationErrors)
+		utilities.WriteError(response, http.StatusBadRequest, fmt.Errorf("invalid payload %v", validationErrors))
 
 		return
 	}
