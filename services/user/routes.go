@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/dominicsieli/go-server/config"
 	"github.com/dominicsieli/go-server/services/auth"
 	"github.com/dominicsieli/go-server/types"
 	"github.com/dominicsieli/go-server/utilities"
@@ -54,6 +55,17 @@ func (handler *Handler) handleLogin(response http.ResponseWriter, request *http.
 		return
 	}
 
+	secret := []byte(config.Envs.JWTSecret)
+	token, err := auth.CreateJWT(secret, user.ID)
+
+	if err != nil {
+		utilities.WriteError(response, http.StatusInternalServerError, err)
+
+		return
+	}
+
+	utilities.WriteJSON(response, http.StatusOK, map[string]string{"token": token})
+
 }
 
 func (handler *Handler) handleRegister(response http.ResponseWriter, request *http.Request) {
@@ -89,7 +101,7 @@ func (handler *Handler) handleRegister(response http.ResponseWriter, request *ht
 	err = handler.store.CreateUser(types.User{
 		FirstName: payload.FirstName,
 		LastName:  payload.LastName,
-		Email:	   payload.Email,
+		Email:     payload.Email,
 		Password:  hashedPassword,
 	})
 
