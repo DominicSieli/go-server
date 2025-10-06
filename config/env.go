@@ -19,9 +19,9 @@ type Config struct {
 	JWTExpirationInSeconds int64
 }
 
-var Envs = initConfig()
+var Envs = initializeConfig()
 
-func initConfig() Config {
+func initializeConfig() Config {
 	godotenv.Load()
 
 	return Config{

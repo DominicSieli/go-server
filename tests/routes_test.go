@@ -1,19 +1,21 @@
-package user
+package tests
 
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/dominicsieli/go-server/controllers"
 	"github.com/dominicsieli/go-server/types"
 	"github.com/gorilla/mux"
 )
 
-func TestUserServiceHandlers(test *testing.T) {
-	userStore := &mockUserStore{}
-	handler := NewHandler(userStore)
+func TestUserController(test *testing.T) {
+	userRepo := &MockUserRepo{}
+	controller := controllers.CreateController(userRepo)
 
 	test.Run("should fail if the user payload is invalid", func(test *testing.T) {
 		payload := types.RegisterUserPayload{
@@ -33,7 +35,7 @@ func TestUserServiceHandlers(test *testing.T) {
 		testRequest := httptest.NewRecorder()
 		router := mux.NewRouter()
 
-		router.HandleFunc("register", handler.handleRegister)
+		router.HandleFunc("register", controller.RegisterController)
 		router.ServeHTTP(testRequest, request)
 
 		if testRequest.Code != http.StatusBadRequest {
@@ -41,7 +43,7 @@ func TestUserServiceHandlers(test *testing.T) {
 		}
 	})
 
-	test.Run("should correctly register the user") {
+	test.Run("should correctly register the user", func(test *testing.T) {
 		payload := types.RegisterUserPayload{
 			FirstName: "Dominic",
 			LastName:  "Sieli",
@@ -59,25 +61,25 @@ func TestUserServiceHandlers(test *testing.T) {
 		testRequest := httptest.NewRecorder()
 		router := mux.NewRouter()
 
-		router.HandleFunc("register", handler.handleRegister)
+		router.HandleFunc("register", controller.RegisterController)
 		router.ServeHTTP(testRequest, request)
 
 		if testRequest.Code != http.StatusCreated {
 			test.Errorf("expected status code %d, got %d", http.StatusCreated, testRequest.Code)
 		}
-	}
+	})
 }
 
-type mockUserStore struct{}
+type MockUserRepo struct{}
 
-func (moch *mockUserStore) GetUserByEmail(email string) (*types.User, error) {
+func (mockUserRepo *MockUserRepo) GetUserByEmail(email string) (*types.User, error) {
 	return nil, fmt.Errorf("user not found")
 }
 
-func (moch *mockUserStore) GetUserByID(id int) (*types.User, error) {
+func (mockUserRepo *MockUserRepo) GetUserByID(id int) (*types.User, error) {
 	return nil, nil
 }
 
-func (moch *mockUserStore) CreateUser(types.User) error {
+func (mockUserRepo *MockUserRepo) CreateUser(types.User) error {
 	return nil
 }

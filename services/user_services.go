@@ -1,11 +1,14 @@
-package user
+/*
+
+package services
 
 import (
 	"fmt"
 	"net/http"
 
 	"github.com/dominicsieli/go-server/config"
-	"github.com/dominicsieli/go-server/services/auth"
+	"github.com/dominicsieli/go-server/auth"
+	"github.com/dominicsieli/go-server/crypto"
 	"github.com/dominicsieli/go-server/types"
 	"github.com/dominicsieli/go-server/utilities"
 	"github.com/go-playground/validator/v10"
@@ -21,11 +24,11 @@ func NewHandler(store types.UserStore) *Handler {
 }
 
 func (handler *Handler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/login", handler.handleLogin).Methods("POST")
-	router.HandleFunc("/register", handler.handleRegister).Methods("POST")
+	router.HandleFunc("/login", handler.HandleLogin).Methods(http.MethodPost)
+	router.HandleFunc("/register", handler.HandleRegister).Methods(http.MethodPost)
 }
 
-func (handler *Handler) handleLogin(response http.ResponseWriter, request *http.Request) {
+func (handler *Handler) HandleLogin(response http.ResponseWriter, request *http.Request) {
 	var payload types.LoginUserPayload
 
 	if err := utilities.ParseJSON(request, &payload); err != nil {
@@ -49,14 +52,14 @@ func (handler *Handler) handleLogin(response http.ResponseWriter, request *http.
 		return
 	}
 
-	if !auth.ValidatePasswordHash(user.Password, []byte(payload.Password)) {
+	if !crypto.ValidatePasswordHash(user.Password, []byte(payload.Password)) {
 		utilities.WriteError(response, http.StatusBadRequest, fmt.Errorf("password not found"))
 
 		return
 	}
 
 	secret := []byte(config.Envs.JWTSecret)
-	token, err := auth.CreateJWT(secret, user.ID)
+	token, err := auth.CreateToken(secret, user.ID)
 
 	if err != nil {
 		utilities.WriteError(response, http.StatusInternalServerError, err)
@@ -68,7 +71,7 @@ func (handler *Handler) handleLogin(response http.ResponseWriter, request *http.
 
 }
 
-func (handler *Handler) handleRegister(response http.ResponseWriter, request *http.Request) {
+func (handler *Handler) HandleRegister(response http.ResponseWriter, request *http.Request) {
 	var payload types.RegisterUserPayload
 
 	if err := utilities.ParseJSON(request, &payload); err != nil {
@@ -90,7 +93,7 @@ func (handler *Handler) handleRegister(response http.ResponseWriter, request *ht
 		return
 	}
 
-	hashedPassword, err := auth.HashPassword(payload.Password)
+	hashedPassword, err := crypto.HashPassword(payload.Password)
 
 	if err != nil {
 		utilities.WriteError(response, http.StatusInternalServerError, err)
@@ -101,7 +104,7 @@ func (handler *Handler) handleRegister(response http.ResponseWriter, request *ht
 	err = handler.store.CreateUser(types.User{
 		FirstName: payload.FirstName,
 		LastName:  payload.LastName,
-		Email:     payload.Email,
+		Email:	   payload.Email,
 		Password:  hashedPassword,
 	})
 
@@ -113,3 +116,5 @@ func (handler *Handler) handleRegister(response http.ResponseWriter, request *ht
 
 	utilities.WriteJSON(response, http.StatusCreated, nil)
 }
+
+*/

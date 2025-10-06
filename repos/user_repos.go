@@ -1,4 +1,4 @@
-package user
+package repos
 
 import (
 	"database/sql"
@@ -7,16 +7,16 @@ import (
 	"github.com/dominicsieli/go-server/types"
 )
 
-type Store struct {
+type Repo struct {
 	database *sql.DB
 }
 
-func NewStore(database *sql.DB) *Store {
-	return &Store{database: database}
+func CreateRepo(database *sql.DB) *Repo {
+	return &Repo{database: database}
 }
 
-func (store *Store) GetUserByEmail(email string) (*types.User, error) {
-	rows, err := store.database.Query("SELECT * FROM users WHERE email = ?", email)
+func (repo *Repo) GetUserByEmail(email string) (*types.User, error) {
+	rows, err := repo.database.Query("SELECT * FROM users WHERE email = ?", email)
 
 	if err != nil {
 		return nil, err
@@ -58,10 +58,10 @@ func scanRowIntoUser(rows *sql.Rows) (*types.User, error) {
 	return user, nil
 }
 
-func (store *Store) GetUserByID(id int) (*types.User, error) {
+func (repo *Repo) GetUserByID(id int) (*types.User, error) {
 	return nil, nil
 }
 
-func (store *Store) CreateUser(user types.User) error {
+func (repo *Repo) CreateUser(user types.User) error {
 	return nil
 }
