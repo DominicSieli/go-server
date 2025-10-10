@@ -1,21 +1,20 @@
 package api
 
 import (
-	"database/sql"
 	"log"
 	"net/http"
 
-	"github.com/dominicsieli/go-server/controllers"
-	"github.com/dominicsieli/go-server/repos"
+	"github.com/dominicsieli/go-server/routes"
 	"github.com/gorilla/mux"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type APIServer struct {
 	address  string
-	database *sql.DB
+	database *mongo.Client
 }
 
-func CreateAPIServer(address string, database *sql.DB) *APIServer {
+func CreateAPIServer(address string, database *mongo.Client) *APIServer {
 	return &APIServer{
 		address:  address,
 		database: database,
@@ -24,12 +23,8 @@ func CreateAPIServer(address string, database *sql.DB) *APIServer {
 
 func (apiServer *APIServer) Run() error {
 	router := mux.NewRouter()
-	subRouter := router.PathPrefix("/api/v1").Subrouter()
 
-	userRepo := repos.CreateRepo(apiServer.database)
-
-	userHandler := controllers.CreateController(userRepo)
-	userHandler.RegisterRoutes(subRouter)
+	routes.RegisterUserRoutes(router)
 
 	log.Println("Listening on", apiServer.address)
 

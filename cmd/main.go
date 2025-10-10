@@ -14,10 +14,13 @@ func main() {
 		log.Fatal(err)
 	}
 
-	//database.InitializeDatabase(db)
-	server := api.CreateAPIServer(":8080", db)
+	database.InitializeDatabase(db)
 
-	if err := server.Run(); err != nil {
+	server := api.CreateAPIServer(":8000", db)
+
+	err = server.Run()
+
+	if err != nil {
 		log.Fatal(err)
 	}
 }

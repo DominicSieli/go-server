@@ -1,25 +1,17 @@
 package database
 
 import (
-	"database/sql"
+	"context"
 	"log"
 
 	"github.com/dominicsieli/go-server/config"
-	"github.com/go-sql-driver/mysql"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func CreateDatabase() (*sql.DB, error) {
-	config := mysql.Config{
-		User:				  config.Envs.DBUser,
-		Passwd:				  config.Envs.DBPassword,
-		Addr:				  config.Envs.DBAddress,
-		DBName:				  config.Envs.DBName,
-		Net:				  "tcp",
-		AllowNativePasswords: true,
-		ParseTime:			  true,
-	}
-
-	database, err := sql.Open("mysql", config.FormatDSN())
+func CreateDatabase() (*mongo.Client, error) {
+	clientOptions := options.Client().ApplyURI(config.Envs.DBURI)
+	database, err := mongo.Connect(context.Background(), clientOptions)
 
 	if err != nil {
 		log.Fatal(err)
@@ -28,8 +20,8 @@ func CreateDatabase() (*sql.DB, error) {
 	return database, nil
 }
 
-func InitializeDatabase(database *sql.DB) {
-	err := database.Ping()
+func InitializeDatabase(database *mongo.Client) {
+	err := database.Ping(context.Background(), nil)
 
 	if err != nil {
 		log.Fatal(err)

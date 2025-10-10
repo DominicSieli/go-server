@@ -1,120 +1,14 @@
-/*
-
 package services
 
 import (
-	"fmt"
+	"github.com/dominicsieli/go-server/data"
 	"net/http"
-
-	"github.com/dominicsieli/go-server/config"
-	"github.com/dominicsieli/go-server/auth"
-	"github.com/dominicsieli/go-server/crypto"
-	"github.com/dominicsieli/go-server/types"
-	"github.com/dominicsieli/go-server/utilities"
-	"github.com/go-playground/validator/v10"
-	"github.com/gorilla/mux"
 )
 
-type Handler struct {
-	store types.UserStore
+func UserLoginService(response http.ResponseWriter, request *http.Request) {
+	data.Create(response, request)
 }
 
-func NewHandler(store types.UserStore) *Handler {
-	return &Handler{store: store}
+func UserRegisterService(response http.ResponseWriter, request *http.Request) {
+	data.Create(response, request)
 }
-
-func (handler *Handler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/login", handler.HandleLogin).Methods(http.MethodPost)
-	router.HandleFunc("/register", handler.HandleRegister).Methods(http.MethodPost)
-}
-
-func (handler *Handler) HandleLogin(response http.ResponseWriter, request *http.Request) {
-	var payload types.LoginUserPayload
-
-	if err := utilities.ParseJSON(request, &payload); err != nil {
-		utilities.WriteError(response, http.StatusBadRequest, err)
-
-		return
-	}
-
-	if err := utilities.Validate.Struct(payload); err != nil {
-		validationErrors := err.(validator.ValidationErrors)
-		utilities.WriteError(response, http.StatusBadRequest, fmt.Errorf("invalid payload %v", validationErrors))
-
-		return
-	}
-
-	user, err := handler.store.GetUserByEmail(payload.Email)
-
-	if err != nil {
-		utilities.WriteError(response, http.StatusBadRequest, fmt.Errorf("email not found"))
-
-		return
-	}
-
-	if !crypto.ValidatePasswordHash(user.Password, []byte(payload.Password)) {
-		utilities.WriteError(response, http.StatusBadRequest, fmt.Errorf("password not found"))
-
-		return
-	}
-
-	secret := []byte(config.Envs.JWTSecret)
-	token, err := auth.CreateToken(secret, user.ID)
-
-	if err != nil {
-		utilities.WriteError(response, http.StatusInternalServerError, err)
-
-		return
-	}
-
-	utilities.WriteJSON(response, http.StatusOK, map[string]string{"token": token})
-
-}
-
-func (handler *Handler) HandleRegister(response http.ResponseWriter, request *http.Request) {
-	var payload types.RegisterUserPayload
-
-	if err := utilities.ParseJSON(request, &payload); err != nil {
-		utilities.WriteError(response, http.StatusBadRequest, err)
-
-		return
-	}
-
-	if err := utilities.Validate.Struct(payload); err != nil {
-		validationErrors := err.(validator.ValidationErrors)
-		utilities.WriteError(response, http.StatusBadRequest, fmt.Errorf("invalid payload %v", validationErrors))
-
-		return
-	}
-
-	if _, err := handler.store.GetUserByEmail(payload.Email); err != nil {
-		utilities.WriteError(response, http.StatusBadRequest, fmt.Errorf("user with email %s already exists", payload.Email))
-
-		return
-	}
-
-	hashedPassword, err := crypto.HashPassword(payload.Password)
-
-	if err != nil {
-		utilities.WriteError(response, http.StatusInternalServerError, err)
-
-		return
-	}
-
-	err = handler.store.CreateUser(types.User{
-		FirstName: payload.FirstName,
-		LastName:  payload.LastName,
-		Email:	   payload.Email,
-		Password:  hashedPassword,
-	})
-
-	if err != nil {
-		utilities.WriteError(response, http.StatusInternalServerError, err)
-
-		return
-	}
-
-	utilities.WriteJSON(response, http.StatusCreated, nil)
-}
-
-*/
