@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/dominicsieli/go-server/routes"
-	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -22,7 +21,7 @@ func CreateAPIServer(address string, database *mongo.Client) *APIServer {
 }
 
 func (apiServer *APIServer) Run() error {
-	router := mux.NewRouter()
+	router := http.NewServeMux()
 
 	routes.RegisterUserRoutes(router)
 

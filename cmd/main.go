@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/dominicsieli/go-server/api"
+	"github.com/dominicsieli/go-server/config"
 	"github.com/dominicsieli/go-server/database"
 )
 
@@ -16,7 +17,7 @@ func main() {
 
 	database.InitializeDatabase(db)
 
-	server := api.CreateAPIServer(":8000", db)
+	server := api.CreateAPIServer(config.Envs.Port, db)
 
 	err = server.Run()
 
