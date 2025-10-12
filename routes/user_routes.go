@@ -6,6 +6,6 @@ import (
 )
 
 func RegisterUserRoutes(router *http.ServeMux) {
-	router.HandleFunc("POST /login", handlers.UserLoginHandler)
-	router.HandleFunc("POST /register", handlers.UserRegisterHandler)
+	router.HandleFunc(Post(LOGIN), handlers.LoginHandler)
+	router.HandleFunc(Post(REGISTER), handlers.RegisterHandler)
 }

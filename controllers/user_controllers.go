@@ -5,10 +5,10 @@ import (
 	"net/http"
 )
 
-func UserLoginController(response http.ResponseWriter, request *http.Request) {
-	services.UserLoginService(response, request)
+func LoginController(response http.ResponseWriter, request *http.Request) {
+	services.LoginService(response, request)
 }
 
-func UserRegisterController(response http.ResponseWriter, request *http.Request) {
-	services.UserRegisterService(response, request)
+func RegisterController(response http.ResponseWriter, request *http.Request) {
+	services.RegisterService(response, request)
 }
