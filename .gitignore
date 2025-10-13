@@ -30,6 +30,9 @@ go.work.sum
 # Build directory
 bin/
 
+# Temp directory
+tmp/
+
 # Editor/IDE
 # .idea/
 # .vscode/
