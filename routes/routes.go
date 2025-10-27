@@ -1,6 +1,6 @@
 package routes
 
 const (
-	LOGIN	 = "/login"
+	LOGIN    = "/login"
 	REGISTER = "/register"
 )
