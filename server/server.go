@@ -27,7 +27,7 @@ func StartServer() {
 	)
 
 	server := http.Server{
-		Addr:	 config.Envs.Port,
+		Addr:    config.Envs.Port,
 		Handler: stack(router),
 	}
 
