@@ -13,6 +13,7 @@ import (
 func StartServer() {
 	router := http.NewServeMux()
 	routes.RegisterUserRoutes(router)
+	routes.RegisterAdminRoutes(router)
 
 	db, err := database.CreateDatabase()
 
