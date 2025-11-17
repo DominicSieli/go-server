@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 
@@ -11,13 +10,9 @@ import (
 type Config struct {
 	Port                   string
 	DBURI                  string
-	DBName                 string
-	DBUser                 string
 	HostName               string
-	DBAddress              string
 	JWTSecret              string
 	APIVersion             string
-	DBPassword             string
 	JWTExpirationInSeconds int64
 }
 
@@ -27,16 +22,12 @@ func initializeConfig() Config {
 	godotenv.Load()
 
 	return Config{
+		Port:                   getEnv("PORT", ""),
 		DBURI:                  getEnv("DB_URI", ""),
-		Port:                   getEnv("PORT", ":8080"),
-		DBUser:                 getEnv("DB_USER", "root"),
-		HostName:               getEnv("HOSTNAME", "localhost"),
-		APIVersion:             getEnv("API_VERSION", "/api/v1"),
-		DBPassword:             getEnv("DB_PASSWORD", "mypassword"),
-		DBName:                 getEnv("DB_NAME", "go-server-template"),
+		HostName:               getEnv("HOSTNAME", ""),
+		JWTSecret:              getEnv("JWT_SECRET", ""),
+		APIVersion:             getEnv("API_VERSION", ""),
 		JWTExpirationInSeconds: getEnvAsInt("JWT_EXPIRATION", 3600*24*7),
-		JWTSecret:              getEnv("JWT_SECRET", "not secret anymore?"),
-		DBAddress:              fmt.Sprintf("%s:%s", getEnv("DB_HOST", "127.0.0.1"), getEnv("DB_PORT", "3306")),
 	}
 }
 
