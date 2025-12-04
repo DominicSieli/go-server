@@ -1,14 +1,14 @@
 package services
 
 import (
-	"github.com/dominicsieli/go-server/data"
+	"github.com/dominicsieli/go-server/crud"
 	"net/http"
 )
 
 func UserLoginService(response http.ResponseWriter, request *http.Request) {
-	data.Login(response, request)
+	crud.LoginUser(response, request)
 }
 
 func UserRegisterService(response http.ResponseWriter, request *http.Request) {
-	data.Register(response, request)
+	crud.RegisterUser(response, request)
 }
