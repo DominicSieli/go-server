@@ -6,9 +6,9 @@ import (
 )
 
 func AdminLoginService(response http.ResponseWriter, request *http.Request) {
-	crud.LoginAdmin(response, request)
+	crud.AdminLogin(response, request)
 }
 
 func AdminRegisterService(response http.ResponseWriter, request *http.Request) {
-	crud.RegisterAdmin(response, request)
+	crud.AdminRegister(response, request)
 }
