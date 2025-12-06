@@ -5,10 +5,10 @@ import (
 	"net/http"
 )
 
-func UserLoginService(response http.ResponseWriter, request *http.Request) {
-	crud.UserLogin(response, request)
+func LoginUserService(response http.ResponseWriter, request *http.Request) {
+	crud.LoginUser(response, request)
 }
 
-func UserRegisterService(response http.ResponseWriter, request *http.Request) {
-	crud.UserRegister(response, request)
+func CreateUserService(response http.ResponseWriter, request *http.Request) {
+	crud.CreateUser(response, request)
 }

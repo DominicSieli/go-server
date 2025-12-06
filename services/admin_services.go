@@ -5,10 +5,10 @@ import (
 	"net/http"
 )
 
-func AdminLoginService(response http.ResponseWriter, request *http.Request) {
-	crud.AdminLogin(response, request)
+func LoginAdminService(response http.ResponseWriter, request *http.Request) {
+	crud.LoginAdmin(response, request)
 }
 
-func AdminRegisterService(response http.ResponseWriter, request *http.Request) {
-	crud.AdminRegister(response, request)
+func CreateAdminService(response http.ResponseWriter, request *http.Request) {
+	crud.CreateAdmin(response, request)
 }

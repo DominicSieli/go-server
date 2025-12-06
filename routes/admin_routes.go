@@ -6,11 +6,11 @@ import (
 )
 
 const (
-	ADMIN_LOGIN    = "admin/login"
-	ADMIN_REGISTER = "admin/register"
+	ADMIN_LOGIN  = "admin/login"
+	ADMIN_CREATE = "admin/create"
 )
 
 func RegisterAdminRoutes(router *http.ServeMux) {
-	router.HandleFunc(Post(ADMIN_LOGIN), handlers.AdminLoginHandler)
-	router.HandleFunc(Post(ADMIN_REGISTER), handlers.AdminRegisterHandler)
+	router.HandleFunc(Post(ADMIN_LOGIN), handlers.LoginAdminHandler)
+	router.HandleFunc(Post(ADMIN_CREATE), handlers.CreateAdminHandler)
 }
